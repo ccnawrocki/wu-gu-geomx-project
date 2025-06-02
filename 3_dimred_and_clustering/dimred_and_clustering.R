@@ -73,12 +73,12 @@ Heatmap(matrix = mat |> t(),
 # named integer(0)
 
 dds <- DESeq2::DESeqDataSetFromMatrix(countData = cts, colData = meta, design = ~1)
-keep <- rowSums(counts(dds)) >= 100
+keep <- rowSums(DESeq2::counts(dds)) >= 100
 dds <- dds[keep,]
-sizeFactors(dds) <- meta$q_norm_qfactors # Use the Q3 size factors
+DESeq2::sizeFactors(dds) <- meta$q_norm_qfactors # Use the Q3 size factors
 dds <- DESeq2::estimateDispersions(dds)
 DESeq2::plotDispEsts(object = dds)
-disps <- mcols(dds)$dispGeneEst
+disps <- S4Vectors::mcols(dds)$dispGeneEst
 names(disps) <- rownames(dds)
 top_genes <- sort(disps, decreasing = T)[1:1500] |> names()
 
@@ -108,7 +108,7 @@ ha <- HeatmapAnnotation(cancer_type = meta$cancer_type,
                         sub_types = meta$sub_types,
                         col = list("cancer_type"=cancer_cols, "tma_core"=core_cols, "sub_types"=sub_cols)
 )
-pdf(file = "heatmap_unsupervised_hclust_1500hvgs.pdf", width = 10, height = 12)
+# pdf(file = "heatmap_unsupervised_hclust_1500hvgs_viridis.pdf", width = 10, height = 12)
 Heatmap(matrix = mat |> t(), 
         top_annotation = ha,
         cluster_rows = T, 
@@ -116,11 +116,13 @@ Heatmap(matrix = mat |> t(),
         name = "Scaled\nlog2(Q3+1)", 
         show_column_names = F, 
         show_row_names = F, 
+        col = circlize::colorRamp2(breaks = seq(quantile(mat, 0.025), quantile(mat, 0.975), length.out=51),
+                                   colors = viridis::viridis(51))
 )
-dev.off()
+# dev.off()
 
 # Unsupervised, but split into 2 groups
-pdf(file = "heatmap_unsupervised_hclust_1500hvgs_2clusters.pdf", width = 10, height = 12)
+# pdf(file = "heatmap_unsupervised_hclust_1500hvgs_2clusters_viridis.pdf", width = 10, height = 12)
 Heatmap(matrix = mat |> t(), 
         top_annotation = ha, 
         cluster_rows = T, 
@@ -128,12 +130,14 @@ Heatmap(matrix = mat |> t(),
         name = "Scaled\nlog2(Q3+1)", 
         show_row_names = F, 
         show_column_names = F, 
-        column_split = 2
+        column_split = 2,
+        col = circlize::colorRamp2(breaks = seq(quantile(mat, 0.025), quantile(mat, 0.975), length.out=51),
+                                   colors = viridis::viridis(51))
 )
-dev.off()
+# dev.off()
 
 # Unsupervised, but split into 3 groups
-pdf(file = "heatmap_unsupervised_hclust_1500hvgs_3clusters.pdf", width = 10, height = 12)
+# pdf(file = "heatmap_unsupervised_hclust_1500hvgs_3clusters_viridis.pdf", width = 10, height = 12)
 Heatmap(matrix = mat |> t(), 
         top_annotation = ha, 
         cluster_rows = T, 
@@ -141,26 +145,29 @@ Heatmap(matrix = mat |> t(),
         name = "Scaled\nlog2(Q3+1)", 
         show_row_names = F, 
         show_column_names = F, 
-        column_split = 3
+        column_split = 3,
+        col = circlize::colorRamp2(breaks = seq(quantile(mat, 0.025), quantile(mat, 0.975), length.out=51),
+                                   colors = viridis::viridis(51))
 )
-dev.off()
+# dev.off()
 
 # Supervised
-pdf(file = "heatmap_supervised_hclust_1500hvgs.pdf", width = 10, height = 12)
+# pdf(file = "heatmap_supervised_hclust_1500hvgs_viridis.pdf", width = 10, height = 12)
 Heatmap(matrix = mat |> t(), 
         top_annotation = ha, 
         cluster_rows = T, 
         cluster_columns = T, 
         name = "Scaled\nlog2(Q3+1)", 
         show_row_names = F, 
-        column_split = meta$cancer_type
+        column_split = meta$cancer_type, 
+        col = circlize::colorRamp2(breaks = seq(quantile(mat, 0.025), quantile(mat, 0.975), length.out=51),
+                                   colors = viridis::viridis(51))
 )
-dev.off()
+# dev.off()
 
 # Notes: 
 # It looks pretty good. When we get the patient IDs, we can re-cluster while
 # accounting for that as a batch variable for good measure.
-
 
 # Session
 sessionInfo()

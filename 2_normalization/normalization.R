@@ -59,26 +59,66 @@ lcpm <- log2(cpm + 1)
 
 # Viz
 # pdf(file = "normalization_plots.pdf", width = 10, height = 10)
-boxplot(cts,
+boxplot(cts+1,
+        log = "y",
         col = "red3", 
-        main = "Raw Counts", 
+        main = "Raw Counts + 1", 
         names = 1:88, xlab = "AOI #")
-boxplot(q3norm,
+boxplot(q3norm+1,
+        log = "y",
         col = "dodgerblue", 
-        main = "Q3 Normalized Counts", 
+        main = "Q3 Normalized Counts + 1", 
         names = 1:88, xlab = "AOI #")
 boxplot(lq3,
         col = "gold", 
         main = "log2(Q3+1) Transformed Counts", 
         names = 1:88, xlab = "AOI #")
-boxplot(cpm,
+boxplot(cpm+1,
+        log = "y",
         col = "limegreen", 
-        main = "CPM Normalized Counts", 
+        main = "CPM Normalized Counts + 1", 
         names = 1:88, xlab = "AOI #")
 boxplot(lcpm,
         col = "purple", 
         main = "log2(CPM+1) Normalized Counts", 
         names = 1:88, xlab = "AOI #")
+# dev.off()
+
+# Base plotting makes plots that are sort of big. Making some smaller ggplots too:
+# pdf(file = "normalization_plots_smaller.pdf", width = 10, height = 10)
+ggplot() + 
+  geom_boxplot(data = cts |> tidyr::pivot_longer(cols = 1:ncol(cts), names_to = "aoi", values_to = "RawCounts"), 
+               mapping = aes(x = aoi, y = RawCounts+1), fill = "red3", outliers = F) + 
+  scale_y_log10() + 
+  ggthemes::theme_par() +
+  theme(axis.text.x = element_text(angle = 90, size = 8)) + 
+  labs(title = "Raw Counts + 1")
+ggplot() + 
+  geom_boxplot(data = q3norm |> tidyr::pivot_longer(cols = 1:ncol(q3norm), names_to = "aoi", values_to = "Q3"), 
+               mapping = aes(x = aoi, y = Q3+1), fill = "dodgerblue", outliers = F) + 
+  scale_y_log10() + 
+  ggthemes::theme_par() +
+  theme(axis.text.x = element_text(angle = 90, size = 8)) + 
+  labs(title = "Q3 Normalized Counts + 1")
+ggplot() + 
+  geom_boxplot(data = lq3 |> tidyr::pivot_longer(cols = 1:ncol(lq3), names_to = "aoi", values_to = "log2(Q3+1)"), 
+               mapping = aes(x = aoi, y = `log2(Q3+1)`), fill = "gold", outliers = F) + 
+  ggthemes::theme_par() +
+  theme(axis.text.x = element_text(angle = 90, size = 8)) + 
+  labs(title = "log2(Q3+1) Transformed Counts")
+ggplot() + 
+  geom_boxplot(data = cpm |> tidyr::pivot_longer(cols = 1:ncol(cpm), names_to = "aoi", values_to = "cpm"), 
+               mapping = aes(x = aoi, y = cpm+1), fill = "limegreen", outliers = F) + 
+  scale_y_log10() + 
+  ggthemes::theme_par() +
+  theme(axis.text.x = element_text(angle = 90, size = 8)) + 
+  labs(title = "CPM+1")
+ggplot() + 
+  geom_boxplot(data = lcpm |> tidyr::pivot_longer(cols = 1:ncol(lcpm), names_to = "aoi", values_to = "log2(CPM+1)"), 
+               mapping = aes(x = aoi, y = `log2(CPM+1)`), fill = "purple", outliers = F) + 
+  ggthemes::theme_par() +
+  theme(axis.text.x = element_text(angle = 90, size = 8)) + 
+  labs(title = "log2(CPM+1) Transformed Counts")
 # dev.off()
 
 ### Session ### ----------------------------------------------------------------
