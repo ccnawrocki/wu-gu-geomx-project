@@ -17,7 +17,7 @@ library(presto)
 # Data 
 cts <- read.csv(file = "counts.csv", row.names = 1)
 norm <- read.csv("log2plus1_q3norm.csv", row.names = 1)
-meta <- read.csv(file = "meta.csv", row.names = 1, )
+meta <- read.csv(file = "meta.csv", row.names = 1)
 
 # Remove NegProbe-WTX before doing any of this analysis
 norm <- norm[rownames(norm) != "NegProbe-WTX",]
