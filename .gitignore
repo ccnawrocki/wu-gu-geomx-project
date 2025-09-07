@@ -35,6 +35,8 @@
 *.xls
 *.geojson
 *.json
+*.gct
+*.gmt
 
 
 # Plots #
