@@ -190,19 +190,19 @@ meta$sub_types_v5 <- case_when(meta$roi %in% c(48, 49) ~ "Precursor",
 small_meta <- meta |> filter(sub_types_v5 %in% c("Precursor", "Intraductal_spread"))
 small_meta$group <- small_meta$sub_types_v5
 
-gct <- cbind(Name = rownames(norm[,rownames(small_meta)]), Description = "na", norm[,rownames(small_meta)])
-con <- file("6_pathways/reactome_ssGSEA_results/data_for_2.3.gct", "wt")
-writeLines("#1.2", con)
-writeLines(paste(nrow(norm[,rownames(small_meta)]), ncol(norm[,rownames(small_meta)]), sep="\t"), con)
-write.table(gct, con, sep="\t", quote=FALSE, row.names=FALSE)
-close(con)
-
-reactome_details_gmt <- select(reactome_details, pathway_description, targets)
-reactome_details_gmt$source <- "reactome"
-reactome_details_gmt$targets <- gsub(pattern = ",", replacement = "\t", x = reactome_details_gmt$targets)
-reactome_details_gmt$pathway_description <- gsub(pattern = " ", replacement = "_", x = reactome_details_gmt$pathway_description)
-reactome_details_gmt$gmt <- paste(reactome_details_gmt$pathway_description, reactome_details_gmt$source, reactome_details_gmt$targets, sep = "\t")
-write.table(reactome_details_gmt[,"gmt"], file = "6_pathways/reactome_ssGSEA_results/reactome.gmt", row.names = F, col.names = F)
+# gct <- cbind(Name = rownames(norm[,rownames(small_meta)]), Description = "na", norm[,rownames(small_meta)])
+# con <- file("6_pathways/reactome_ssGSEA_results/data_for_2.3.gct", "wt")
+# writeLines("#1.2", con)
+# writeLines(paste(nrow(norm[,rownames(small_meta)]), ncol(norm[,rownames(small_meta)]), sep="\t"), con)
+# write.table(gct, con, sep="\t", quote=FALSE, row.names=FALSE)
+# close(con)
+# 
+# reactome_details_gmt <- select(reactome_details, pathway_description, targets)
+# reactome_details_gmt$source <- "reactome"
+# reactome_details_gmt$targets <- gsub(pattern = ",", replacement = "\t", x = reactome_details_gmt$targets)
+# reactome_details_gmt$pathway_description <- gsub(pattern = " ", replacement = "_", x = reactome_details_gmt$pathway_description)
+# reactome_details_gmt$gmt <- paste(reactome_details_gmt$pathway_description, reactome_details_gmt$source, reactome_details_gmt$targets, sep = "\t")
+# write.table(reactome_details_gmt[,"gmt"], file = "6_pathways/reactome_ssGSEA_results/reactome.gmt", row.names = F, col.names = F)
 
 # # This took ~4 hours, I used the same parameters in the GitHub vignette
 # ssGSEA_res <- ssGSEA2::run_ssGSEA2(
@@ -221,6 +221,9 @@ write.table(reactome_details_gmt[,"gmt"], file = "6_pathways/reactome_ssGSEA_res
 #   global.fdr = FALSE
 #   )
 # saveRDS(object = ssGSEA_res, file = "6_pathways/reactome_ssGSEA_results/results_for_2.3.RDS")
+
+# Once I had the results, I deleted the files I made above. There is no point in
+# keeping them... they are just duplicated data and can be remade easily.
 
 ssGSEA_res <- readRDS("6_pathways/reactome_ssGSEA_results/results_for_2.3.RDS")
 names(ssGSEA_res) <- gsub(pattern = "\"", replacement = "", x = names(ssGSEA_res))
