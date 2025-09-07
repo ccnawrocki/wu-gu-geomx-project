@@ -75,7 +75,7 @@ ids <- df |> group_by(entrezid) |> tally() |> arrange(desc(n)) |> filter(n > 1) 
 smalldf <- df[df$entrezid %in% ids,]
 smalldf |> View()
 
-# We will look into each of them that has multiple possible entrex ids, and choose the one that makes sense.
+# We will look into each of them that has multiple possible entrez ids, and choose the one that makes sense.
 # Hopefully, over time we will accumulate extrez IDs for all genes in the WTA.
 for (entid in smalldf$GeneID) {
   cat(entid, "\n")

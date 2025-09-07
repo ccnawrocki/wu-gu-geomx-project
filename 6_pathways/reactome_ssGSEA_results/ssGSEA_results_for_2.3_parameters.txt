@@ -1,0 +1,13 @@
+## 2025-09-06 15:59:53.578187
+input gct:	6_pathways/reactome_ssGSEA_results/data_for_2.3.gct
+gene.set.database:	6_pathways/reactome_ssGSEA_results/reactome.gmt
+sample.norm.type:	none
+weight:	0.75
+statistic:	area.under.RES
+output.score.type	NES
+nperm:	1000
+global.fdr:	FALSE
+min.overlap:	5
+correl.type:	rank
+export.signat.gct:	TRUE
+run.parallel:	FALSE
