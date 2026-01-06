@@ -1266,7 +1266,7 @@ ggplot() +
                            mapping = aes(x = log2FoldChange, y = -log10(padj), label = target), 
                            color = "black", min.segment.length = 0, box.padding = 0.25, max.overlaps = 30, size = 3, segment.size = 0.25) + 
   annotate(geom = "segment", x = 0, xend = 0.5, y = -2, yend = -2, arrow = arrow(type = "open", length = unit(4, "pt"))) + 
-  annotate(geom = "text", x = 0.6, y = -2, label = "MP", hjust = 0, fontface = "bold") +
+  annotate(geom = "text", x = 0.6, y = -2, label = "PC", hjust = 0, fontface = "bold") +
   annotate(geom = "segment", x = 0, xend = -0.5, y = -2, yend = -2, arrow = arrow(type = "open", length = unit(4, "pt"))) +
   annotate(geom = "text", x = -0.6, y = -2, label = "PUC", hjust = 1, fontface = "bold")
 ggsave(filename = "bladder - DESeq2_PC_vs_PUC.pdf", device = "pdf", width = 8, height = 8)

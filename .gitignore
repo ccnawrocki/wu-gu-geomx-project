@@ -3,14 +3,20 @@
 .DS_Store
 .DS_Store?
 
+
 # R files #
+###########
 .Rhistory
 .Rproj.user
 .Rprofile
+.Rapp.history
 *.Rproj
 
+
 # Jupyter files #
+#################
 **/.ipynb_checkpoints/
+
 
 # Packages #
 ############
@@ -22,6 +28,7 @@
 *.rar
 *.tar
 *.zip
+
 
 # Data #
 ########
@@ -37,6 +44,7 @@
 *.json
 *.gct
 *.gmt
+*.log
 
 
 # Plots #
@@ -48,6 +56,7 @@
 *.jpg
 *.jpeg
 *.png
+*.svg
 # *.pptx
 
 
