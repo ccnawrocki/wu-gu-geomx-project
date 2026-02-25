@@ -81,3 +81,27 @@ Heatmap(mat,
         name = "Scaled\nExpression")
 dev.off()
 
+
+mat <- v$EList$E[topmarks$target, bmeta |> arrange(MolecularClass, patient_deid) |> pull(sample_id)] |> apply(MARGIN = 1, FUN = scale) |> t()
+
+pdf(file = "MolecularClass_Top10Markers_with_patient.pdf", width = 8, height = 10)
+Heatmap(mat, 
+        top_annotation = HeatmapAnnotation(Class = bmeta |> arrange(MolecularClass, patient_deid) |> pull(MolecularClass), 
+                                           Patient = bmeta |> arrange(MolecularClass, patient_deid) |> pull(patient_deid),
+                                           col = list("Class" = 
+                                                        c("Ba/Sq" = "pink", 
+                                                          "LumNS" = "orange", 
+                                                          "LumP" = "gold", 
+                                                          "LumU" = "limegreen", 
+                                                          "NE-like" = "grey", 
+                                                          "Stroma-rich" = "dodgerblue"), 
+                                                      "Patient" = ggprism::ggprism_data$colour_palettes$colors[1:dplyr::n_distinct(bmeta$patient_deid)] |> 
+                                                        setNames(nm = unique(bmeta$patient_deid))
+                                           ),
+                                           show_annotation_name = F),
+        cluster_columns = F, cluster_rows = F,
+        col = circlize::colorRamp2(breaks = seq(-4, 4, length.out = 101), 
+                                   colors = colorRampPalette(mindray_discrete)(101)), 
+        name = "Scaled\nExpression")
+dev.off()
+
